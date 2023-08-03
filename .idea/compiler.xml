@@ -10,5 +10,10 @@
         <module name="kkyong.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="kkyong" target="17" />
+      <module name="kkyong.main" target="17" />
+      <module name="kkyong.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
