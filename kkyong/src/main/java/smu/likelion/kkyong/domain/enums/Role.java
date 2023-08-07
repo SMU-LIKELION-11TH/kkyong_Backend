@@ -7,8 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Role {
     ADMIN("ROLE_ADMIN"),
-    USER("ROLE_USER"),
-    CEO("ROLE_CEO");
+    USER("ROLE_USER");
 
     private String name;
 }

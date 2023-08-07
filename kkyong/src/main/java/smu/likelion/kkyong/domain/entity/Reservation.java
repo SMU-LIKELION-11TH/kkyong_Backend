@@ -31,13 +31,13 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")
-    private Service service;
+    private Services service;
 
     @OneToMany(mappedBy = "reservation")
     private List<Time> reservationTimes = new ArrayList<>();
 
     @Builder
-    public Reservation(String reservationNumber, String reservationDate, Users user, Service service) {
+    public Reservation(String reservationNumber, String reservationDate, Users user, Services service) {
         this.reservationNumber = reservationNumber;
         this.reservationDate = reservationDate;
         this.user = user;

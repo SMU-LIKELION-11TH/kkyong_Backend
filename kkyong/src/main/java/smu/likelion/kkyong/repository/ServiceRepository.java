@@ -1,7 +1,12 @@
 package smu.likelion.kkyong.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import smu.likelion.kkyong.domain.entity.Service;
+import smu.likelion.kkyong.domain.entity.Services;
+import smu.likelion.kkyong.domain.enums.ServiceType;
 
-public interface ServiceRepository extends JpaRepository<Service, Long> {
+import java.util.List;
+
+public interface ServiceRepository extends JpaRepository<Services, Long> {
+    public List<Services> getServicesByServiceTypeAndRegion(ServiceType type, String region);
+    public List<Services> getServicesByServiceName(String serviceName);
 }

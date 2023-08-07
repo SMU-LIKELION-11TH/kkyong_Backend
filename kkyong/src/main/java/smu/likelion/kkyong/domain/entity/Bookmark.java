@@ -24,10 +24,10 @@ public class Bookmark extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")
-    private Service service;
+    private Services service;
 
     @Builder
-    public Bookmark(Users user, Service service) {
+    public Bookmark(Users user, Services service) {
         this.user = user;
         this.service = service;
     }
