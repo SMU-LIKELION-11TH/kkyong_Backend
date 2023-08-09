@@ -6,10 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 import smu.likelion.kkyong.domain.entity.Bookmark;
 import smu.likelion.kkyong.domain.entity.Services;
 import smu.likelion.kkyong.domain.entity.Users;
+import smu.likelion.kkyong.dto.service.ServiceReturnDto;
 import smu.likelion.kkyong.repository.BookmarkRepository;
 import smu.likelion.kkyong.repository.ServiceRepository;
 import smu.likelion.kkyong.repository.UserRepository;
 import smu.likelion.kkyong.util.ExceptionUtil;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,9 +37,21 @@ public class BookmarkServiceImpl implements BookmarkService {
     }
 
     private Bookmark findBookmark(Services service, Users user) {
-        return bookmarkRepository.getBookmarkByServiceAndUser(service, user).orElseThrow(
+        return bookmarkRepository.findByServiceAndUser(service, user).orElseThrow(
                 () -> ExceptionUtil.available("No Bookmark")
         );
+    }
+
+    @Transactional
+    @Override
+    public List<ServiceReturnDto> getBookmarkList(Long userId) {
+        Users user = findUser(userId);
+        List<Bookmark> bookmarks = bookmarkRepository.findByUser(user);
+
+        return bookmarks.stream().map(bookmark -> ServiceReturnDto.builder()
+                .entity(bookmark.getService())
+                .bookmarkStatus(true)
+                .build()).collect(Collectors.toList());
     }
 
     @Transactional

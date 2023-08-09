@@ -7,6 +7,6 @@ import smu.likelion.kkyong.domain.enums.ServiceType;
 import java.util.List;
 
 public interface ServiceRepository extends JpaRepository<Services, Long> {
-    public List<Services> getServicesByServiceTypeAndRegion(ServiceType type, String region);
-    public List<Services> getServicesByServiceName(String serviceName);
+    public List<Services> findByServiceTypeAndRegion(ServiceType type, String region);
+    public List<Services> findByServiceName(String serviceName);
 }

@@ -39,6 +39,17 @@ public class ServiceController {
         return null;
     }
 
+    @GetMapping("/bookmark/{userId}")
+    public ResponseEntity<ReturnDto> getMyBookmarkList(@PathVariable Long userId) {
+        try {
+           return ResponseEntity.ok(ReturnDto.of(Code.OK, bookmarkService.getBookmarkList(userId)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     @PostMapping("/{serviceId}/bookmark/{userId}")
     public ResponseEntity<ReturnDto> createBookmark(@PathVariable Long serviceId,
                                                     @PathVariable Long userId) {

@@ -35,14 +35,14 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public List<ServiceReturnDto> getServiceListByRegion(ServiceType type, String region) {
 
-        List<Services> services = serviceRepository.getServicesByServiceTypeAndRegion(type, region);
+        List<Services> services = serviceRepository.findByServiceTypeAndRegion(type, region);
         return Services.toDtoList(services);
     }
 
     @Transactional
     @Override
     public List<ServiceReturnDto> getServiceListByName(String serviceName) {
-        List<Services> services = serviceRepository.getServicesByServiceName(serviceName);
+        List<Services> services = serviceRepository.findByServiceName(serviceName);
         return Services.toDtoList(services);
     }
 
