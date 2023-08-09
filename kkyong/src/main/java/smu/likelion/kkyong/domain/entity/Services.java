@@ -65,16 +65,13 @@ public class Services extends BaseEntity {
     @Column(name = "reservation_status")
     private Boolean reservationStatus;
 
-    @Column(name = "bookmark_status")
-    private Boolean bookmarkStatus;
-
     @OneToMany(mappedBy = "service")
     private List<Reservation> reservations = new ArrayList<>();
 
     @Builder
     public Services(ServiceType serviceType, String reservationType, String serviceName, String serviceTarget,
                     String region, String place, String xCoord, String yCoord, String serviceStart, String serviceEnd,
-                    String imageUrl, String contact, Integer recruitCount, Boolean reservationStatus, Boolean bookmarkStatus) {
+                    String imageUrl, String contact, Integer recruitCount, Boolean reservationStatus) {
         this.serviceType = serviceType;
         this.reservationType = reservationType;
         this.serviceName = serviceName;
@@ -89,17 +86,12 @@ public class Services extends BaseEntity {
         this.contact = contact;
         this.recruitCount = recruitCount;
         this.reservationStatus = reservationStatus;
-        this.bookmarkStatus = bookmarkStatus;
     }
 
     public static List<ServiceReturnDto> toDtoList(List<Services> entities) {
         return entities.stream().map(
                 (entity -> ServiceReturnDto.builder().entity(entity).build())
         ).collect(Collectors.toList());
-    }
-
-    public void changeBookmark() {
-
     }
 
 }

@@ -60,7 +60,6 @@ public class PublicServiceAPI {
                         .contact(row.TELNO)
                         .recruitCount(25)
                         .reservationStatus(true)
-                        .bookmarkStatus(false)
                         .build()
         ).toList();
 

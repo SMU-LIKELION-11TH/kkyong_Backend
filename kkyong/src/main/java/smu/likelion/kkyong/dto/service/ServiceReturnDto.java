@@ -21,9 +21,10 @@ public class ServiceReturnDto {
     private String contact;
     private int recruitCount;
     private boolean reservationStatus;
+    private boolean bookmarkStatus;
 
     @Builder
-    public ServiceReturnDto(Services entity) {
+    public ServiceReturnDto(Services entity, boolean bookmarkStatus) {
         this.id = entity.getId();
         this.serviceType = entity.getServiceType();
         this.serviceName = entity.getServiceName();
@@ -38,5 +39,6 @@ public class ServiceReturnDto {
         this.contact = entity.getContact();
         this.recruitCount = entity.getRecruitCount();
         this.reservationStatus = entity.getReservationStatus();
+        this.bookmarkStatus = bookmarkStatus;
     }
 }

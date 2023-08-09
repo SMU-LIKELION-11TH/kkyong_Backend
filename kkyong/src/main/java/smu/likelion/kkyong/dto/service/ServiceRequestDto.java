@@ -1,13 +1,10 @@
 package smu.likelion.kkyong.dto.service;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import smu.likelion.kkyong.domain.entity.Services;
 import smu.likelion.kkyong.domain.enums.ServiceType;
 
-import java.util.List;
-import java.util.Map;
 
 @Data
 public class ServiceRequestDto {
@@ -25,12 +22,11 @@ public class ServiceRequestDto {
     private String contact;
     private int recruitCount;
     private boolean reservationStatus;
-    private boolean bookmarkStatus;
 
     @Builder
     public ServiceRequestDto(String serviceType, String reservationType, String serviceName, String region, String place,
                              String serviceTarget, String xCoord, String yCoord, String serviceStart, String serviceEnd,
-                             String imageUrl, String contact, int recruitCount, boolean reservationStatus, boolean bookmarkStatus) {
+                             String imageUrl, String contact, int recruitCount, boolean reservationStatus) {
         this.serviceType = serviceType;
         this.reservationType = reservationType;
         this.serviceName = serviceName;
@@ -45,7 +41,6 @@ public class ServiceRequestDto {
         this.contact = contact;
         this.recruitCount = recruitCount;
         this.reservationStatus = reservationStatus;
-        this.bookmarkStatus = bookmarkStatus;
     }
 
     public Services toEntity() {
@@ -64,7 +59,6 @@ public class ServiceRequestDto {
                 .contact(this.contact)
                 .recruitCount(this.recruitCount)
                 .reservationStatus(this.reservationStatus)
-                .bookmarkStatus(this.bookmarkStatus)
                 .build();
     }
 
