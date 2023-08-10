@@ -11,15 +11,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import smu.likelion.kkyong.domain.entity.Services;
 import smu.likelion.kkyong.dto.service.ServiceRequestDto;
-import smu.likelion.kkyong.dto.service.ServiceReturnDto;
 import smu.likelion.kkyong.repository.ServiceRepository;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
