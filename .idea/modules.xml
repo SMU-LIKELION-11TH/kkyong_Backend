@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kkyong.iml" filepath="$PROJECT_DIR$/.idea/modules/kkyong.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kkyong.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kkyong.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kkyong.test.iml" filepath="$PROJECT_DIR$/.idea/modules/kkyong.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/kkyong_Backend.iml" filepath="$PROJECT_DIR$/.idea/kkyong_Backend.iml" />
     </modules>
   </component>

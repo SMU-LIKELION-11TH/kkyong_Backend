@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,14 +14,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import smu.likelion.kkyong.jwt.JwtAccessDeniedHandler;
-import smu.likelion.kkyong.jwt.JwtAuthenticationEntryPoint;
-import smu.likelion.kkyong.jwt.JwtTokenProvider;
-import smu.likelion.kkyong.repository.UsersRepository;
-import smu.likelion.kkyong.service.UsersServiceImpl;
+import smu.likelion.kkyong.config.auth.AuthUserDetailsService;
+import smu.likelion.kkyong.config.jwt.JwtAccessDeniedHandler;
+import smu.likelion.kkyong.config.jwt.JwtAuthenticationEntryPoint;
+import smu.likelion.kkyong.config.jwt.JwtFilter;
+import smu.likelion.kkyong.config.jwt.JwtTokenProvider;
+import smu.likelion.kkyong.repository.UserRepository;
+import smu.likelion.kkyong.util.RedisService;
 
 import java.util.Arrays;
 
@@ -29,15 +33,10 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UsersRepository usersRepository;
+    private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-    private  final PasswordEncoder passwordEncoder;
-    private  final AuthenticationManager authenticationManager;
 
-
-
+    private final RedisService redisService;
     /**
      * permitAll : 인증, 권한 X 가능
      * authenticated : 인증 해야 됨
@@ -48,10 +47,6 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .cors().configurationSource(corsConfigurationSource())
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint) //401: 유저 정보 없이 접근
-                .accessDeniedHandler(jwtAccessDeniedHandler) //403: 접근 권한이 없음
 
                 .and()
                 .headers()
@@ -59,39 +54,31 @@ public class SecurityConfig {
                 .sameOrigin()
 
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .formLogin().disable()
+                .httpBasic().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/register").permitAll()
+                .antMatchers("/admin/api").hasRole("ADMIN")
                 .anyRequest().authenticated()
-
-                // Session 사용 X
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-                .and()
-                .apply(new JwtSecurityConfig(jwtTokenProvider));
+                .addFilterBefore(new JwtFilter(jwtTokenProvider, redisService), UsernamePasswordAuthenticationFilter.class);
 
 
         return http.build();
     }
-    @Bean
-    public FilterRegistrationBean<OpenEntityManagerInViewFilter> openEntityManagerInViewFilter() {
-        FilterRegistrationBean<OpenEntityManagerInViewFilter> filterFilterRegistrationBean = new FilterRegistrationBean<>();
-        filterFilterRegistrationBean.setFilter(new OpenEntityManagerInViewFilter());
-        filterFilterRegistrationBean.setOrder(Integer.MIN_VALUE); // 예시를 위해 최우선 순위로 Filter 등록
-        return filterFilterRegistrationBean;
-    }
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
     @Bean
-    public UserDetailsService userDetailsService() { return new UsersServiceImpl(usersRepository, passwordEncoder, jwtTokenProvider, authenticationManager) {
-    }; }
+    public UserDetailsService userDetailsService() {
+        return new AuthUserDetailsService(userRepository);
+    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

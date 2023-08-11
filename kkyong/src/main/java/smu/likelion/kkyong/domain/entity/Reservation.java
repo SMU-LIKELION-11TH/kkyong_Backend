@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import smu.likelion.kkyong.domain.entity.users.Users;
 
 import javax.persistence.*;
 import java.util.ArrayList;
