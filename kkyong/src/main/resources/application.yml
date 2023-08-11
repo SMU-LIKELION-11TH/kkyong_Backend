@@ -3,7 +3,7 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
-    url: jdbc:h2:~/kkyong
+    url: jdbc:h2:tcp://localhost/~/Kkyong
   h2:
     console:
       enabled: 'true'
@@ -16,9 +16,7 @@ spring:
         show_sql: 'true'
     show-sql: 'true'
     hibernate:
-      ddl-auto: update
-  security:
-    jwt:
-      token:
-        secret-key: 46726836487
-        expire-length: 3600000
+      ddl-auto: none
+  redis:
+    host: 127.0.0.1
+    port: 6379

@@ -33,9 +33,6 @@ public class Reservation {
     @JoinColumn(name = "service_id")
     private Service service;
 
-    @OneToMany(mappedBy = "reservation")
-    private List<Time> reservationTimes = new ArrayList<>();
-
     @Builder
     public Reservation(String reservationNumber, String reservationDate, Users user, Service service) {
         this.reservationNumber = reservationNumber;

@@ -7,12 +7,11 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name = "users")
-public class Users extends BaseEntity{
+public class Users extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,8 +47,7 @@ public class Users extends BaseEntity{
     private List<Reservation> reservations = new ArrayList<>();
 
     @Builder
-    public Users(String email, String nickname, String password, String kakaoId, String phoneNumber, String region,
-                 Role role) {
+    public Users(String email, String nickname, String password, String kakaoId, String phoneNumber, String region, Role role) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
@@ -57,5 +55,14 @@ public class Users extends BaseEntity{
         this.phoneNumber = phoneNumber;
         this.region = region;
         this.role = role;
+    }
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+    public void updateInfo(String nickname, String kakaoId, String phoneNumber, String region){
+        this.nickname = nickname != null ? nickname : this.nickname;
+        this.kakaoId = kakaoId != null ? kakaoId : this.kakaoId;
+        this.phoneNumber = phoneNumber != null ? phoneNumber : this.phoneNumber;
+        this.region = region != null ? region : this.region;
     }
 }
