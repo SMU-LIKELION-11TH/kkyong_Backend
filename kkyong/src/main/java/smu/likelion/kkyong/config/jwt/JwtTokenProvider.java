@@ -3,6 +3,7 @@ package smu.likelion.kkyong.config.jwt;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
+@PropertySource(value = "application-API.properties")
 public class JwtTokenProvider {
 
     private final String secretKey;
@@ -41,7 +43,7 @@ public class JwtTokenProvider {
 
         Date now = new Date();
         Date accessTokenExpiresIn = new Date(now.getTime() + expirationMilliseconds);
-
+        
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .setIssuer(issuer)
@@ -64,15 +66,6 @@ public class JwtTokenProvider {
                 .build();
     }
 
-    public Long getExpiration(String accessToken) {
-        Claims claims = parseClaims(accessToken);
-
-        if (claims.get("exp") == null) {
-            throw new RuntimeException("만료 시간 정보가 없는 토큰입니다.");
-        }
-
-        return claims.getExpiration().getTime();
-    }
     // 토큰 유효성 검사
     public boolean validateToken(String token){
         try {
@@ -103,7 +96,12 @@ public class JwtTokenProvider {
                         .collect(Collectors.toList());
 
         // UserDetails 객체를 만들어서 Authentication 리턴
-        UserDetails principal = new AuthUser(claims.getSubject(), "", claims.get("auth").toString());
+        UserDetails principal = AuthUser.builder()
+                .password(accessToken)
+                .username(claims.getSubject())
+                .role(claims.get("auth").toString())
+                .build();
+
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 

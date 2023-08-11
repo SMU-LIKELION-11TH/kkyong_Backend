@@ -6,25 +6,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class AuthUtil {
-
-    public static Authentication getCurrentAuthentication() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        if (context == null) {
-            return null;
-        }
-        return context.getAuthentication();
-    }
-
-    public static Object getCurrentDetails() {
-        Authentication auth = getCurrentAuthentication();
-        if (auth == null) {
-            return null;
-        }
-        return auth.getPrincipal();
-    }
-
     public static String getAuthUser() {
-        Object details = getCurrentDetails();
+        SecurityContext context = SecurityContextHolder.getContext();
+
+        Authentication authentication = context.getAuthentication();
+
+        Object details = authentication.getPrincipal();
+
         if (details instanceof UserDetails) {
             return ((UserDetails) details).getUsername();
         }

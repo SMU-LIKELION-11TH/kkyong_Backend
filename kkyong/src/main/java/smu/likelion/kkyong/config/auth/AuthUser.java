@@ -14,7 +14,7 @@ import java.util.Collection;
 public class AuthUser implements UserDetails {
     private String password;
     private final String username; // email
-    private String role;
+    private String role; // ROLE_USER
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

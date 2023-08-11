@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider tokenProvider;
-    private final AuthenticationManager authenticationManager;
+    private final AuthenticationManagerBuilder authenticationManager;
     private final RedisService redisService;
 
     private Users findUser(String email) {
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
         // try Authenticate
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
 
-        Authentication authentication = authenticationManager.authenticate(token);
+        Authentication authentication = authenticationManager.getObject().authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         TokenReturnDto tokenDto = tokenProvider.createToken(authentication);
@@ -77,7 +78,6 @@ public class UserServiceImpl implements UserService {
         }
 
         // 해당 Access Token 유효시간을 가지고 와서 BlackList에 저장하기
-        Long expiration = tokenProvider.getExpiration(dto.getAccessToken());
         redisService.setValues(dto.getAccessToken(),"logout");
     }
 
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
         Users user = dto.toEntity();
         user.updatePassword(passwordEncoder.encode(dto.getPassword()));
         return UserReturnDto.builder()
-                .user(user)
+                .user(userRepository.save(user))
                 .build();
     }
 

@@ -35,7 +35,6 @@ public class SecurityConfig {
 
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-
     private final RedisService redisService;
     /**
      * permitAll : 인증, 권한 X 가능
@@ -54,8 +53,6 @@ public class SecurityConfig {
                 .sameOrigin()
 
                 .and()
-                .formLogin().disable()
-                .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()

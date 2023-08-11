@@ -31,10 +31,10 @@ public class JwtFilter extends GenericFilterBean {
         String token = resolveAccessToken((HttpServletRequest) request);
 
         if(StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
-            String isLogout = redisService.getValues(token);
 
+            String isLogout = redisService.getValues(token);
             // 로그아웃이 없는(되어 있지 않은) 경우 해당 토큰은 정상적으로 작동하기
-            if (ObjectUtils.isEmpty(isLogout)) {
+            if (isLogout.equals("false")) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

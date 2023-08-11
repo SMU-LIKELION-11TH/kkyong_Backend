@@ -10,7 +10,6 @@ public class UserReturnDto {
     private Long id;
     private String email;
     private String nickname;
-    private String password;
     private String kakaoId;
     private String phoneNumber;
     private String region;
@@ -22,7 +21,6 @@ public class UserReturnDto {
         this.id = user.getId();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
-        this.password = user.getPassword();
         this.kakaoId = user.getKakaoId();
         this.phoneNumber = user.getPhoneNumber();
         this.region = user.getRegion();

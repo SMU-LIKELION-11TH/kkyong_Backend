@@ -2,16 +2,9 @@ package smu.likelion.kkyong.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import smu.likelion.kkyong.domain.entity.users.CustomUserDetail;
-import smu.likelion.kkyong.domain.entity.Users;
 import smu.likelion.kkyong.domain.enums.Code;
-import smu.likelion.kkyong.dto.user.LoginRequestDto;
-import smu.likelion.kkyong.dto.user.UserRequestDto;
-import smu.likelion.kkyong.dto.user.RegisterRequestDto;
-import smu.likelion.kkyong.dto.user.UserReturnDto;
+import smu.likelion.kkyong.dto.user.*;
 import smu.likelion.kkyong.dto.common.ReturnDto;
 import smu.likelion.kkyong.service.UserServiceImpl;
 
@@ -43,9 +36,9 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<ReturnDto> logout() {
+    public ResponseEntity<ReturnDto> logout(@RequestBody TokenRequestDto dto) {
         try {
-            userService.logout();
+            userService.logout(dto);
             return ResponseEntity.ok(ReturnDto.of(Code.OK));
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,7 +57,7 @@ public class UserController {
         return null;
     }
 
-    @PutMapping(value = "/user")
+    @PutMapping("/user")
     public ResponseEntity<ReturnDto> updateUser(@RequestBody UserRequestDto dto) {
         try {
             return ResponseEntity.ok(ReturnDto.of(Code.OK, userService.updateUser(dto)));
@@ -74,4 +67,14 @@ public class UserController {
         return null;
     }
 
+    @PutMapping("/user/password")
+    public ResponseEntity<ReturnDto> changePassword(@RequestBody PasswordRequestDto dto) {
+        try {
+            userService.changePassword(dto);
+            return ResponseEntity.ok(ReturnDto.of(Code.OK));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
