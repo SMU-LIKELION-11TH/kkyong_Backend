@@ -1,10 +1,10 @@
-package smu.likelion.kkyong.dto;
+package smu.likelion.kkyong.dto.Users;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import smu.likelion.kkyong.domain.entity.Users;
+import smu.likelion.kkyong.domain.entity.users.Users;
 
 @Getter
 @Setter

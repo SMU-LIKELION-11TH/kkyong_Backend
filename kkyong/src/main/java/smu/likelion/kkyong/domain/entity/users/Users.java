@@ -1,20 +1,29 @@
-package smu.likelion.kkyong.domain.entity;
+package smu.likelion.kkyong.domain.entity.users;
 
 import lombok.*;
-import org.hibernate.annotations.Entity;
+import smu.likelion.kkyong.domain.entity.BaseEntity;
+import smu.likelion.kkyong.domain.entity.Bookmark;
+import smu.likelion.kkyong.domain.entity.Reservation;
 import smu.likelion.kkyong.domain.enums.Role;
+import smu.likelion.kkyong.dto.common.ReturnDto;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 @Table(name = "users")
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Users extends BaseEntity{
+public class Users extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
 
     @Column(name="email", unique = true)
     private String email;
@@ -22,7 +31,7 @@ public class Users extends BaseEntity{
     @Column(name="nickname", unique = true)
     private String nickname;
 
-    @Column(name="password")
+    @Column(name="password", nullable = false)
     private String password;
 
     @Column(name="kakao_id")
@@ -34,9 +43,12 @@ public class Users extends BaseEntity{
     @Column(name="region")
     private String region;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private Role role;
+    @OneToMany(mappedBy = "user")
+    private List<Bookmark> bookmarks = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "user")
+    private List<Reservation> reservations = new ArrayList<>();
 
     @Builder
     public Users(String email, String nickname, String password, String kakaoId, String phoneNumber, String region, Role role) {

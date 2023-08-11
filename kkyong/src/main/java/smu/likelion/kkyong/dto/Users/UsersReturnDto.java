@@ -1,6 +1,7 @@
-package smu.likelion.kkyong.dto;
+package smu.likelion.kkyong.dto.Users;
 
-import smu.likelion.kkyong.domain.entity.Users;
+import lombok.Builder;
+import smu.likelion.kkyong.domain.entity.users.Users;
 
 public class UsersReturnDto {
 
@@ -20,6 +21,7 @@ public class UsersReturnDto {
 
     private String updateddAt;
 
+    @Builder
     public UsersReturnDto(Users users) {
         this.email = users.getEmail();
         this.nickname = users.getNickname();
