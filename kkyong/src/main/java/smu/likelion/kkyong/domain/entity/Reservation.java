@@ -19,11 +19,17 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "reservation_number", nullable = false)
+    @Column(name = "reservation_number", nullable = false, unique = true)
     private String reservationNumber;
 
     @Column(name = "reservation_date", nullable = false)
     private String reservationDate;
+
+    @Column(name = "start_time")
+    private String startTime;
+
+    @Column(name = "end_time")
+    private String endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -31,13 +37,17 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")
-    private Service service;
+    private Services service;
 
     @Builder
-    public Reservation(String reservationNumber, String reservationDate, Users user, Service service) {
+    public Reservation(String reservationNumber, String reservationDate, String startTime, String endTime,
+                       Users user, Services service) {
         this.reservationNumber = reservationNumber;
         this.reservationDate = reservationDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.user = user;
         this.service = service;
     }
+
 }

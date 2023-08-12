@@ -3,11 +3,13 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
-    url: jdbc:h2:tcp://localhost/~/Kkyong
+    url: jdbc:h2:tcp://localhost/~/kkyong
+
   h2:
     console:
       enabled: 'true'
       path: /h2-console
+
   jpa:
     properties:
       hibernate:
@@ -17,6 +19,11 @@ spring:
     show-sql: 'true'
     hibernate:
       ddl-auto: none
+
   redis:
-    host: 127.0.0.1
+    host: localhost
     port: 6379
+
+  profiles:
+    include: API
+

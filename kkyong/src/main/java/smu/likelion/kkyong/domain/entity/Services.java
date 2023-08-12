@@ -1,27 +1,33 @@
 package smu.likelion.kkyong.domain.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import smu.likelion.kkyong.domain.enums.ServiceType;
+import smu.likelion.kkyong.dto.service.ServiceReturnDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name = "services")
-public class Service extends BaseEntity {
+public class Services extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "service_type")
     @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
+
+    @Column(name = "reservation_type")
+    private String reservationType;
 
     @Column(name = "service_name")
     private String serviceName;
@@ -62,10 +68,12 @@ public class Service extends BaseEntity {
     @OneToMany(mappedBy = "service")
     private List<Reservation> reservations = new ArrayList<>();
 
-    public Service(ServiceType serviceType, String serviceName, String serviceTarget, String region, String place,
-                   String xCoord, String yCoord, String serviceStart, String serviceEnd, String imageUrl, String contact,
-                   Integer recruitCount, Boolean reservationStatus) {
+    @Builder
+    public Services(ServiceType serviceType, String reservationType, String serviceName, String serviceTarget,
+                    String region, String place, String xCoord, String yCoord, String serviceStart, String serviceEnd,
+                    String imageUrl, String contact, Integer recruitCount, Boolean reservationStatus) {
         this.serviceType = serviceType;
+        this.reservationType = reservationType;
         this.serviceName = serviceName;
         this.serviceTarget = serviceTarget;
         this.region = region;
@@ -79,4 +87,11 @@ public class Service extends BaseEntity {
         this.recruitCount = recruitCount;
         this.reservationStatus = reservationStatus;
     }
+
+    public static List<ServiceReturnDto> toDtoList(List<Services> entities) {
+        return entities.stream().map(
+                (entity -> ServiceReturnDto.builder().entity(entity).build())
+        ).collect(Collectors.toList());
+    }
+
 }
