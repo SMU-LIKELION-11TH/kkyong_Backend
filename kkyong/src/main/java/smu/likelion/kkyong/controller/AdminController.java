@@ -15,10 +15,11 @@ public class AdminController {
     private final PublicServiceAPI publicServiceAPI;
     private final ServiceService serviceService;
 
-    @GetMapping("/services")
-    public String createService() {
+    @GetMapping("/services/{startPage}/{endPage}")
+    public String createService(@PathVariable String startPage,
+                                @PathVariable String endPage) {
         try {
-            return publicServiceAPI.createAllService();
+            return publicServiceAPI.createAllService(startPage, endPage);
         } catch (Exception e) {
             e.printStackTrace();
         }

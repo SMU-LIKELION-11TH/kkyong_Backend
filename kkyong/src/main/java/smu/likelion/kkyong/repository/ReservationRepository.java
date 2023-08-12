@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    List<Reservation> findByUser(Users user);
+    List<Reservation> findByUserOrderByReservationDateDesc(Users user);
     List<Reservation> findByServiceAndReservationDate(Services service, String reservationDate);
     Optional<Reservation> findByReservationNumber(String reservationNumber);
 }

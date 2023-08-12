@@ -14,11 +14,4 @@ public class TimeDto {
         this.startTime = startTime;
         this.endTime = endTime;
     }
-
-    public Time toEntity() {
-        return Time.builder()
-                .startTime(this.startTime)
-                .endTime(this.endTime)
-                .build();
-    }
 }

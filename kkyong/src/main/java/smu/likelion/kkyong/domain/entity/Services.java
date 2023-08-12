@@ -26,9 +26,6 @@ public class Services extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
 
-    @Column(name = "reservation_type")
-    private String reservationType;
-
     @Column(name = "service_name")
     private String serviceName;
 
@@ -59,9 +56,6 @@ public class Services extends BaseEntity {
     @Column
     private String contact;
 
-    @Column(name = "recruit_count")
-    private Integer recruitCount;
-
     @Column(name = "reservation_status")
     private Boolean reservationStatus;
 
@@ -69,11 +63,10 @@ public class Services extends BaseEntity {
     private List<Reservation> reservations = new ArrayList<>();
 
     @Builder
-    public Services(ServiceType serviceType, String reservationType, String serviceName, String serviceTarget,
+    public Services(ServiceType serviceType, String serviceName, String serviceTarget,
                     String region, String place, String xCoord, String yCoord, String serviceStart, String serviceEnd,
-                    String imageUrl, String contact, Integer recruitCount, Boolean reservationStatus) {
+                    String imageUrl, String contact, Boolean reservationStatus) {
         this.serviceType = serviceType;
-        this.reservationType = reservationType;
         this.serviceName = serviceName;
         this.serviceTarget = serviceTarget;
         this.region = region;
@@ -84,7 +77,6 @@ public class Services extends BaseEntity {
         this.serviceEnd = serviceEnd;
         this.imageUrl = imageUrl;
         this.contact = contact;
-        this.recruitCount = recruitCount;
         this.reservationStatus = reservationStatus;
     }
 

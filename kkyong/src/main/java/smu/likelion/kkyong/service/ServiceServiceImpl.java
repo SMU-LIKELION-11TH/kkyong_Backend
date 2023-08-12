@@ -42,7 +42,7 @@ public class ServiceServiceImpl implements ServiceService {
     @Transactional
     @Override
     public List<ServiceReturnDto> getServiceListByName(String serviceName) {
-        List<Services> services = serviceRepository.findByServiceName(serviceName);
+        List<Services> services = serviceRepository.findByServiceNameContaining(serviceName);
         return Services.toDtoList(services);
     }
 

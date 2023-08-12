@@ -27,10 +27,10 @@ public class PublicServiceAPI {
     private String apiKey;
 
     @Transactional
-    public String createAllService() {
+    public String createAllService(String startPage, String endPage) {
         URI uri = UriComponentsBuilder
                 .fromUriString("http://openapi.seoul.go.kr:8088")
-                .path("/" + apiKey + "/json/tvYeyakCOllect/1/2/")
+                .path("/" + apiKey + "/json/tvYeyakCOllect/" + startPage + "/" + endPage +"/")
                 .encode()
                 .build()
                 .toUri();
@@ -43,7 +43,6 @@ public class PublicServiceAPI {
         List<ServiceRequestDto> dtos = Arrays.stream(result.tvYeyakCOllect.rows).map(row ->
                 ServiceRequestDto.builder()
                         .serviceType(row.MAXCLASSNM)
-                        .reservationType(row.DIV)
                         .serviceName(row.SVCNM)
                         .region(row.AREANM)
                         .place(row.PLACENM)
@@ -54,7 +53,6 @@ public class PublicServiceAPI {
                         .serviceEnd(row.SVCOPNENDDT)
                         .imageUrl(row.IMGURL)
                         .contact(row.TELNO)
-                        .recruitCount(25)
                         .reservationStatus(true)
                         .build()
         ).toList();

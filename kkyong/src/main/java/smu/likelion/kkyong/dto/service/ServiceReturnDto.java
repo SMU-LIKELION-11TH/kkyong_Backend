@@ -19,7 +19,6 @@ public class ServiceReturnDto {
     private String serviceEnd;
     private String imageUrl;
     private String contact;
-    private int recruitCount;
     private boolean reservationStatus;
     private boolean bookmarkStatus;
 
@@ -37,7 +36,6 @@ public class ServiceReturnDto {
         this.serviceEnd = entity.getServiceEnd();
         this.imageUrl = entity.getImageUrl();
         this.contact = entity.getContact();
-        this.recruitCount = entity.getRecruitCount();
         this.reservationStatus = entity.getReservationStatus();
         this.bookmarkStatus = bookmarkStatus;
     }

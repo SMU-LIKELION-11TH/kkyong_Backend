@@ -14,10 +14,10 @@ import smu.likelion.kkyong.service.ReservationService;
 public class ReservationController {
     private final ReservationService reservationService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<ReturnDto> getMyReservationList(@PathVariable Long userId) {
+    @GetMapping("/my")
+    public ResponseEntity<ReturnDto> getMyReservationList() {
         try {
-            return ResponseEntity.ok(ReturnDto.of(Code.OK, reservationService.getReservationList(userId)));
+            return ResponseEntity.ok(ReturnDto.of(Code.OK, reservationService.getReservationList()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -34,12 +34,11 @@ public class ReservationController {
         return null;
     }
 
-    @PostMapping("/{serviceId}/{userId}")
+    @PostMapping("/{serviceId}")
     public ResponseEntity<ReturnDto> createReservation(@PathVariable Long serviceId,
-                                                       @PathVariable Long userId,
-                                                       ReservationRequestDto dto) {
+                                                       @RequestBody ReservationRequestDto dto) {
         try {
-            return ResponseEntity.ok(ReturnDto.of(Code.OK, reservationService.createReservation(serviceId, userId, dto)));
+            return ResponseEntity.ok(ReturnDto.of(Code.OK, reservationService.createReservation(serviceId, dto)));
         } catch (Exception e) {
             e.printStackTrace();
         }

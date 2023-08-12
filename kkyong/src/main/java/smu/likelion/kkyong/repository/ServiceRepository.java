@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ServiceRepository extends JpaRepository<Services, Long> {
     public List<Services> findByServiceTypeAndRegion(ServiceType type, String region);
-    public List<Services> findByServiceName(String serviceName);
+    public List<Services> findByServiceNameContaining(String serviceName);
 }

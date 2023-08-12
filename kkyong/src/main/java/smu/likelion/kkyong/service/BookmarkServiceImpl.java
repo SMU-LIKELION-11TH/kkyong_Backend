@@ -3,6 +3,7 @@ package smu.likelion.kkyong.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import smu.likelion.kkyong.config.auth.AuthUtil;
 import smu.likelion.kkyong.domain.entity.Bookmark;
 import smu.likelion.kkyong.domain.entity.Services;
 import smu.likelion.kkyong.domain.entity.Users;
@@ -24,9 +25,9 @@ public class BookmarkServiceImpl implements BookmarkService {
     private final BookmarkRepository bookmarkRepository;
 
 
-    private Users findUser(Long userId) {
-        return userRepository.findById(userId).orElseThrow(
-                () -> ExceptionUtil.id(userId, Users.class.getName())
+    private Users findUser(String email) {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> ExceptionUtil.id(email, Users.class.getName())
         );
     }
 
@@ -44,8 +45,8 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Transactional
     @Override
-    public List<ServiceReturnDto> getBookmarkList(Long userId) {
-        Users user = findUser(userId);
+    public List<ServiceReturnDto> getBookmarkList() {
+        Users user = findUser(AuthUtil.getAuthUser());
         List<Bookmark> bookmarks = bookmarkRepository.findByUser(user);
 
         return bookmarks.stream().map(bookmark -> ServiceReturnDto.builder()
@@ -56,11 +57,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Transactional
     @Override
-    public void createBookmark(Long userId, Long serviceId) {
+    public void createBookmark(Long serviceId) {
         Services service = findService(serviceId);
-        Users user = findUser(userId);
-        Bookmark bookmark = findBookmark(service, user);
-        if (bookmark != null) {
+        Users user = findUser(AuthUtil.getAuthUser());
+
+        if (bookmarkRepository.existsByServiceAndUser(service, user)) {
             throw ExceptionUtil.available("You have been bookmark this service");
         }
 
@@ -72,9 +73,9 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Transactional
     @Override
-    public void deleteBookmark(Long userId, Long serviceId) {
+    public void deleteBookmark(Long serviceId) {
         Services service = findService(serviceId);
-        Users user = findUser(userId);
+        Users user = findUser(AuthUtil.getAuthUser());
         Bookmark bookmark = findBookmark(service, user);
         if (bookmark == null) {
             throw ExceptionUtil.available("This Service have not bookmarked");

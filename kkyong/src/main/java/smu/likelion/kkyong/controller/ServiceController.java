@@ -17,8 +17,19 @@ public class ServiceController {
     private final ServiceService serviceService;
     private final BookmarkService bookmarkService;
 
-    @GetMapping("/{type}")
-    public ResponseEntity<ReturnDto> getServiceListByRegion(@PathVariable ServiceType type, @RequestParam String region) {
+    @GetMapping("/{serviceId}")
+    public ResponseEntity<ReturnDto> getService(@PathVariable Long serviceId) {
+        try {
+            return ResponseEntity.ok(ReturnDto.of(Code.OK, serviceService.getService(serviceId)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<ReturnDto> getServiceListByRegion(@RequestParam ServiceType type, @RequestParam String region) {
         try {
           return ResponseEntity.ok(ReturnDto.of(Code.OK, serviceService.getServiceListByRegion(type, region)));
         } catch (Exception e) {
@@ -28,7 +39,7 @@ public class ServiceController {
         return null;
     }
 
-    @GetMapping("/")
+    @GetMapping("/search")
     public ResponseEntity<ReturnDto> getServiceListByName(@RequestParam String serviceName) {
         try {
             return ResponseEntity.ok(ReturnDto.of(Code.OK, serviceService.getServiceListByName(serviceName)));
@@ -39,10 +50,10 @@ public class ServiceController {
         return null;
     }
 
-    @GetMapping("/bookmark/{userId}")
-    public ResponseEntity<ReturnDto> getMyBookmarkList(@PathVariable Long userId) {
+    @GetMapping("/bookmark")
+    public ResponseEntity<ReturnDto> getMyBookmarkList() {
         try {
-           return ResponseEntity.ok(ReturnDto.of(Code.OK, bookmarkService.getBookmarkList(userId)));
+           return ResponseEntity.ok(ReturnDto.of(Code.OK, bookmarkService.getBookmarkList()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,11 +61,10 @@ public class ServiceController {
         return null;
     }
 
-    @PostMapping("/{serviceId}/bookmark/{userId}")
-    public ResponseEntity<ReturnDto> createBookmark(@PathVariable Long serviceId,
-                                                    @PathVariable Long userId) {
+    @PostMapping("/{serviceId}/bookmark")
+    public ResponseEntity<ReturnDto> createBookmark(@PathVariable Long serviceId) {
         try {
-            bookmarkService.createBookmark(serviceId, userId);
+            bookmarkService.createBookmark(serviceId);
             return ResponseEntity.ok(ReturnDto.of(Code.OK));
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,11 +73,10 @@ public class ServiceController {
         return null;
     }
 
-    @DeleteMapping("/{serviceId}/bookmark/{userId}")
-    public ResponseEntity<ReturnDto> deleteBookmark(@PathVariable Long serviceId,
-                                                    @PathVariable Long userId) {
+    @DeleteMapping("/{serviceId}/bookmark")
+    public ResponseEntity<ReturnDto> deleteBookmark(@PathVariable Long serviceId) {
         try {
-            bookmarkService.deleteBookmark(serviceId, userId);
+            bookmarkService.deleteBookmark(serviceId);
             return ResponseEntity.ok(ReturnDto.of(Code.OK));
         } catch (Exception e) {
             e.printStackTrace();

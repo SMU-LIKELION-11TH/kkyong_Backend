@@ -3,6 +3,7 @@ package smu.likelion.kkyong.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import smu.likelion.kkyong.config.auth.AuthUtil;
 import smu.likelion.kkyong.domain.entity.Reservation;
 import smu.likelion.kkyong.domain.entity.Services;
 import smu.likelion.kkyong.domain.entity.Users;
@@ -27,9 +28,9 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     private final ReservationBuilder reservationBuilder;
 
-    private Users findUser(Long userId) {
-        return userRepository.findById(userId).orElseThrow(
-                () -> ExceptionUtil.id(userId, Users.class.getName())
+    private Users findUser(String email) {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> ExceptionUtil.id(email, Users.class.getName())
         );
     }
 
@@ -47,15 +48,15 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional
     @Override
-    public ReservationReturnDto createReservation(Long serviceId, Long userId, ReservationRequestDto dto) {
+    public ReservationReturnDto createReservation(Long serviceId, ReservationRequestDto dto) {
         Services service = findService(serviceId);
-        Users user = findUser(userId);
+        Users user = findUser(AuthUtil.getAuthUser());
 
         // 예약 다 찼는지 확인
 
         Reservation reservation = Reservation.builder()
                 .reservationDate(dto.getDate())
-                .reservationNumber(reservationBuilder.createReservationNumber(String.valueOf(serviceId)))
+                .reservationNumber(ReservationBuilder.createReservationNumber(String.valueOf(serviceId)))
                 .startTime(dto.getStartTime())
                 .endTime(dto.getEndTime())
                 .service(service)
@@ -72,10 +73,10 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional
     @Override
-    public List<ReservationReturnDto> getReservationList(Long userId) {
-        Users user = findUser(userId);
+    public List<ReservationReturnDto> getReservationList() {
+        Users user = findUser(AuthUtil.getAuthUser());
 
-        List<Reservation> reservations = reservationRepository.findByUser(user);
+        List<Reservation> reservations = reservationRepository.findByUserOrderByReservationDateDesc(user);
 
         return reservations.stream().map(reservation -> ReservationReturnDto.builder()
                 .reservation(reservation)

@@ -5,12 +5,24 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 @Component
 public class ReservationBuilder {
-    private String number;
 
-    public String createReservationNumber(String serviceId) {
+    public static String convert(String number, int digit) {
+        String result = "";
+        String numberString = String.valueOf(number);
+
+        for (int i = 0; i < digit - numberString.length() ; i++) {
+            result = result.concat("0");
+        }
+        result = result.concat(numberString);
+        return result;
+    }
+
+    public static String createReservationNumber(String serviceId) {
+        String number = "";
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String[] tokens = date.split("-");
 
@@ -18,16 +30,12 @@ public class ReservationBuilder {
             number = number.concat(token);
         }
 
-        if (serviceId.length() == 4) {
-            number = number.concat(serviceId);
-        } else if (serviceId.length() == 3) {
-            number = number.concat("0" + serviceId);
-        } else if (serviceId.length() == 2) {
-            number = number.concat("00" + serviceId);
-        } else {
-            number = number.concat("000" + serviceId);
-        }
+        number = number.concat(convert(serviceId, 4));
 
-        return this.number;
+        Random random = new Random(); // 랜덤 객체 생성
+        random.setSeed(System.currentTimeMillis());
+
+        number = number.concat(convert(String.valueOf(random.nextInt(9999)), 4));
+        return number;
     }
 }
