@@ -65,4 +65,9 @@ public class Users extends BaseEntity {
         this.phoneNumber = phoneNumber != null ? phoneNumber : this.phoneNumber;
         this.region = region != null ? region : this.region;
     }
+
+    public Users updateOAuth(String nickname) {
+        this.nickname = nickname != null ? nickname : this.nickname;
+        return this;
+    }
 }
