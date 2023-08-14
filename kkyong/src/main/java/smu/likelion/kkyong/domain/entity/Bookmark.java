@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import smu.likelion.kkyong.domain.entity.users.Users;
 
 import javax.persistence.*;
 
@@ -20,15 +19,15 @@ public class Bookmark extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "users_id")
+    @JoinColumn(name = "user_id")
     private Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")
-    private Service service;
+    private Services service;
 
     @Builder
-    public Bookmark(Users user, Service service) {
+    public Bookmark(Users user, Services service) {
         this.user = user;
         this.service = service;
     }
