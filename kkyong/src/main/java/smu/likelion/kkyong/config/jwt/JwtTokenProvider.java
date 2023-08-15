@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-@PropertySource(value = "application-API.properties")
+@PropertySource(value = "application-api.properties")
 public class JwtTokenProvider {
 
     private final String secretKey;
