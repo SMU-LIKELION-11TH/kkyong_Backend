@@ -28,10 +28,11 @@ public class ServiceController {
         return null;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<ReturnDto> getServiceListByRegion(@RequestParam ServiceType type, @RequestParam String region) {
+    @GetMapping("/type/{serviceType}")
+    public ResponseEntity<ReturnDto> getServiceListByRegion(@PathVariable ServiceType serviceType,
+                                                            @RequestParam String region) {
         try {
-          return ResponseEntity.ok(ReturnDto.of(Code.OK, serviceService.getServiceListByRegion(type, region)));
+          return ResponseEntity.ok(ReturnDto.of(Code.OK, serviceService.getServiceListByRegion(serviceType, region)));
         } catch (Exception e) {
             e.printStackTrace();
         }
