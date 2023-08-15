@@ -14,6 +14,7 @@ public class ReservationReturnDto {
     private String serviceName;
     private String serviceTarget;
     private String imageUrl;
+    private String region;
     private String place;
     private String xCoord;
     private String yCoord;
@@ -28,6 +29,7 @@ public class ReservationReturnDto {
         this.serviceName = service.getServiceName();
         this.serviceTarget = service.getServiceTarget();
         this.imageUrl = service.getImageUrl();
+        this.region = service.getRegion();
         this.place = service.getPlace();
         this.contact = service.getContact();
         this.xCoord = service.getXCoord();
