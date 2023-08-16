@@ -22,7 +22,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @PostMapping("/login")
@@ -32,7 +32,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @PostMapping("/logout")
@@ -44,7 +44,7 @@ public class UserController {
             e.printStackTrace();
         }
 
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @GetMapping( "/user")
@@ -54,7 +54,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @PutMapping("/user")
@@ -64,7 +64,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @PutMapping("/user/password")
@@ -75,6 +75,6 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 }

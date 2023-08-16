@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserReturnDto updateUser(UserRequestDto dto) {
         Users user = findUser(AuthUtil.getAuthUser());
-        user.updateInfo(dto.getNickname(), dto.getKakaoId(), dto.getPhoneNumber(), dto.getRegion());
+        user.updateInfo(dto.getNickname(), dto.getPhoneNumber(), dto.getRegion());
 
         return UserReturnDto.builder()
                 .user(userRepository.save(user))

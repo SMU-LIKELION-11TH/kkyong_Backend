@@ -21,7 +21,7 @@ public class ReservationController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @GetMapping("/{reservationNumber}")
@@ -31,7 +31,7 @@ public class ReservationController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @PostMapping("/{serviceId}")
@@ -42,7 +42,7 @@ public class ReservationController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @GetMapping("/{serviceId}/time")
@@ -53,7 +53,7 @@ public class ReservationController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @DeleteMapping("/{reservationNumber}")
@@ -65,6 +65,6 @@ public class ReservationController {
             e.printStackTrace();
         }
 
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 }
