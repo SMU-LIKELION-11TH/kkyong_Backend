@@ -40,7 +40,7 @@ public class ReservationServiceImpl implements ReservationService {
         );
     }
 
-    private Reservation findReservation(String reservationNumber) {
+    public Reservation findReservation(String reservationNumber) {
         return reservationRepository.findByReservationNumber(reservationNumber).orElseThrow(
                 () -> ExceptionUtil.id(reservationNumber, Services.class.getName())
         );
@@ -62,7 +62,6 @@ public class ReservationServiceImpl implements ReservationService {
                 .service(service)
                 .user(user)
                 .build();
-
 
         return ReservationReturnDto.builder()
                 .reservation(reservationRepository.save(reservation))

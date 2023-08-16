@@ -2,17 +2,20 @@ package smu.likelion.kkyong.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import smu.likelion.kkyong.config.auth.AuthUtil;
 import smu.likelion.kkyong.domain.enums.Code;
 import smu.likelion.kkyong.dto.common.ReturnDto;
 import smu.likelion.kkyong.dto.reservation.ReservationRequestDto;
 import smu.likelion.kkyong.service.ReservationService;
+import smu.likelion.kkyong.service.ReservationServiceImpl;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reservations")
 public class ReservationController {
-    private final ReservationService reservationService;
+    private final ReservationServiceImpl reservationService;
 
     @GetMapping("/my")
     public ResponseEntity<ReturnDto> getMyReservationList() {
@@ -58,11 +61,13 @@ public class ReservationController {
 
     @DeleteMapping("/{reservationNumber}")
     public ResponseEntity<ReturnDto> deleteReservation(@PathVariable String reservationNumber) {
-        try {
-            reservationService.deleteReservation(reservationNumber);
-            return ResponseEntity.ok(ReturnDto.of(Code.OK));
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(AuthUtil.getAuthUser().equals(reservationService.findReservation(reservationNumber).getUser().getEmail())) {
+            try {
+                reservationService.deleteReservation(reservationNumber);
+                return ResponseEntity.ok(ReturnDto.of(Code.OK));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
