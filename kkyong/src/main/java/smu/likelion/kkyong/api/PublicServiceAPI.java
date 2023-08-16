@@ -60,6 +60,7 @@ public class PublicServiceAPI {
         ).toList();
 
         List<Services> services = dtos.stream()
+                .filter(dto -> dto.getRegion().contains("구"))
                 .map(ServiceRequestDto::toEntity).toList();
 
         serviceRepository.saveAll(services);
