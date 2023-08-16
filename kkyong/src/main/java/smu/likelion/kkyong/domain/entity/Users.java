@@ -27,12 +27,7 @@ public class Users extends BaseEntity {
     @Column(name="nickname", unique = true)
     private String nickname;
 
-    @Column(name="password", nullable = false)
     private String password;
-
-    @Column(name="kakao_id")
-    private String kakaoId;
-
     @Column(name="phone_number")
     private String phoneNumber;
 
@@ -51,7 +46,6 @@ public class Users extends BaseEntity {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
-        this.kakaoId = kakaoId;
         this.phoneNumber = phoneNumber;
         this.region = region;
         this.role = role;
@@ -59,9 +53,8 @@ public class Users extends BaseEntity {
     public void updatePassword(String password) {
         this.password = password;
     }
-    public void updateInfo(String nickname, String kakaoId, String phoneNumber, String region){
+    public void updateInfo(String nickname, String phoneNumber, String region){
         this.nickname = nickname != null ? nickname : this.nickname;
-        this.kakaoId = kakaoId != null ? kakaoId : this.kakaoId;
         this.phoneNumber = phoneNumber != null ? phoneNumber : this.phoneNumber;
         this.region = region != null ? region : this.region;
     }

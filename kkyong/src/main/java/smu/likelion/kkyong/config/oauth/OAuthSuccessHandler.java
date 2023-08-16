@@ -15,7 +15,7 @@ import java.net.URI;
 
 @Component
 @RequiredArgsConstructor
-public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class  OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtTokenProvider tokenProvider;
 
     @Override
@@ -25,7 +25,7 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         TokenReturnDto token = tokenProvider.createToken(authentication);
 
         URI uri = UriComponentsBuilder
-                .fromUriString("http://127.0.0.1:5501/oauth/redirect")
+                .fromUriString("http://52.63.140.248/api/oauth/result")
                 .queryParam("accessToken", token.getAccessToken())
                 .queryParam("refreshToken", token.getRefreshToken())
                 .encode()

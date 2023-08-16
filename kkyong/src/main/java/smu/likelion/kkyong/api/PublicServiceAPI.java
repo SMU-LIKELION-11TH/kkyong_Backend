@@ -39,7 +39,6 @@ public class PublicServiceAPI {
 
         ResponseDto result = template.getForEntity(uri, ResponseDto.class).getBody();
         String resultString = template.getForObject(uri, String.class);
-        System.out.println("result = " + result);
 
         // Row -> ServiceRequestDto -> Services
         List<ServiceRequestDto> dtos = Arrays.stream(result.tvYeyakCOllect.rows).map(row ->

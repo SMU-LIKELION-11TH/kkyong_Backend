@@ -63,7 +63,7 @@ public class SecurityConfig {
                 .oauth2Login()
                 .authorizationEndpoint().baseUri("/api/oauth")
                 .and()
-                .redirectionEndpoint().baseUri("/api/oauth/callback")
+                .redirectionEndpoint().baseUri("/api/oauth/callback/kakao")
                 .and()
                 .userInfoEndpoint().userService(oAuthUserService)
                 .and()
