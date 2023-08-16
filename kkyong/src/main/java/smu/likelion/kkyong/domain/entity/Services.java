@@ -38,12 +38,6 @@ public class Services extends BaseEntity {
     @Column
     private String place;
 
-    @Column
-    private String xCoord;
-
-    @Column
-    private String yCoord;
-
     @Column(name = "service_start")
     private String serviceStart;
 
@@ -64,15 +58,13 @@ public class Services extends BaseEntity {
 
     @Builder
     public Services(ServiceType serviceType, String serviceName, String serviceTarget,
-                    String region, String place, String xCoord, String yCoord, String serviceStart, String serviceEnd,
+                    String region, String place, String serviceStart, String serviceEnd,
                     String imageUrl, String contact, Boolean reservationStatus) {
         this.serviceType = serviceType;
         this.serviceName = serviceName;
         this.serviceTarget = serviceTarget;
         this.region = region;
         this.place = place;
-        this.xCoord = xCoord;
-        this.yCoord = yCoord;
         this.serviceStart = serviceStart;
         this.serviceEnd = serviceEnd;
         this.imageUrl = imageUrl;

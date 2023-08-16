@@ -13,8 +13,6 @@ public class ServiceReturnDto {
     private String region;
     private String place;
     private String serviceTarget;
-    private String xCoord;
-    private String yCoord;
     private String serviceStart;
     private String serviceEnd;
     private String imageUrl;
@@ -30,8 +28,6 @@ public class ServiceReturnDto {
         this.region = entity.getRegion();
         this.place = entity.getPlace();
         this.serviceTarget = entity.getServiceTarget();
-        this.xCoord = entity.getXCoord();
-        this.yCoord = entity.getYCoord();
         this.serviceStart = entity.getServiceStart();
         this.serviceEnd = entity.getServiceEnd();
         this.imageUrl = entity.getImageUrl();

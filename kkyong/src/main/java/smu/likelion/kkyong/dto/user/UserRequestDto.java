@@ -13,14 +13,12 @@ import smu.likelion.kkyong.domain.entity.Users;
 public class UserRequestDto {
 
     private String nickname;
-    private String kakaoId;
     private String phoneNumber;
     private String region;
 
     public Users toEntity() {
         return Users.builder()
                 .nickname(this.nickname)
-                .kakaoId(this.kakaoId)
                 .phoneNumber(this.phoneNumber)
                 .region(this.region)
                 .build();

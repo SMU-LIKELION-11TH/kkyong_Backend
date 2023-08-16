@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class AuthUtil {
     public static String getAuthUser() {
+        // OAuth ?
+
         SecurityContext context = SecurityContextHolder.getContext();
 
         Authentication authentication = context.getAuthentication();

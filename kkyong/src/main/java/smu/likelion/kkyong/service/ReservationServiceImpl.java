@@ -40,7 +40,7 @@ public class ReservationServiceImpl implements ReservationService {
         );
     }
 
-    public Reservation findReservation(String reservationNumber) {
+    private Reservation findReservation(String reservationNumber) {
         return reservationRepository.findByReservationNumber(reservationNumber).orElseThrow(
                 () -> ExceptionUtil.id(reservationNumber, Services.class.getName())
         );
@@ -110,7 +110,13 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     @Override
     public void deleteReservation(String reservationNumber) {
+        Users user = findUser(AuthUtil.getAuthUser());
         Reservation reservation = findReservation(reservationNumber);
+
+        if(!user.equals(reservation.getUser())) {
+            throw ExceptionUtil.available("No Authorized");
+        }
+
         reservationRepository.delete(reservation);
     }
 }

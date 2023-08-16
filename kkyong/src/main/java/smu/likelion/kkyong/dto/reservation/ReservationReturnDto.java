@@ -16,8 +16,6 @@ public class ReservationReturnDto {
     private String imageUrl;
     private String region;
     private String place;
-    private String xCoord;
-    private String yCoord;
     private String contact;
 
     @Builder
@@ -32,7 +30,5 @@ public class ReservationReturnDto {
         this.region = service.getRegion();
         this.place = service.getPlace();
         this.contact = service.getContact();
-        this.xCoord = service.getXCoord();
-        this.yCoord = service.getYCoord();
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -24,6 +25,8 @@ import smu.likelion.kkyong.config.jwt.JwtAccessDeniedHandler;
 import smu.likelion.kkyong.config.jwt.JwtAuthenticationEntryPoint;
 import smu.likelion.kkyong.config.jwt.JwtFilter;
 import smu.likelion.kkyong.config.jwt.JwtTokenProvider;
+import smu.likelion.kkyong.config.oauth.OAuthSuccessHandler;
+import smu.likelion.kkyong.config.oauth.OAuthUserService;
 import smu.likelion.kkyong.repository.UserRepository;
 import smu.likelion.kkyong.util.RedisService;
 
@@ -37,6 +40,8 @@ public class SecurityConfig {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisService redisService;
+    private final OAuthUserService oAuthUserService;
+    private final OAuthSuccessHandler oAuthSuccessHandler;
     /**
      * permitAll : 인증, 권한 X 가능
      * authenticated : 인증 해야 됨
@@ -45,22 +50,32 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
                 .cors().configurationSource(corsConfigurationSource())
-
                 .and()
+                .httpBasic().disable()
+                .csrf().disable()
+                .formLogin().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http
                 .headers()
                 .frameOptions()
-                .sameOrigin()
-
+                .sameOrigin();
+        http
+                .oauth2Login()
+                .authorizationEndpoint().baseUri("/api/oauth")
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
+                .redirectionEndpoint().baseUri("/api/oauth/callback/kakao")
                 .and()
+                .userInfoEndpoint().userService(oAuthUserService)
+                .and()
+                .successHandler(oAuthSuccessHandler);
+
+        http
                 .authorizeRequests()
                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/register").permitAll()
+                .antMatchers("/api/oauth/**").permitAll()
                 .antMatchers("/admin/api").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -79,6 +94,10 @@ public class SecurityConfig {
         return new AuthUserDetailsService(userRepository);
     }
 
+    @Bean
+    public OAuth2UserService oAuth2UserService() {
+        return new OAuthUserService(userRepository);
+    }
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
