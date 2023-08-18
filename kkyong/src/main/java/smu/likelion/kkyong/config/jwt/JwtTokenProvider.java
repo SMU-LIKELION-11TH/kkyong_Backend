@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import smu.likelion.kkyong.config.PrincipalDetails;
 import smu.likelion.kkyong.config.auth.AuthUser;
 import smu.likelion.kkyong.dto.user.TokenReturnDto;
 
@@ -96,8 +97,7 @@ public class JwtTokenProvider {
                         .collect(Collectors.toList());
 
         // UserDetails 객체를 만들어서 Authentication 리턴
-        UserDetails principal = AuthUser.builder()
-                .password(accessToken)
+        PrincipalDetails principal = PrincipalDetails.builder()
                 .username(claims.getSubject())
                 .role(claims.get("auth").toString())
                 .build();

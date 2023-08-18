@@ -47,7 +47,7 @@ public class UserController {
         return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
-    @GetMapping( "/user")
+    @GetMapping("/user")
     public ResponseEntity<ReturnDto> getUser() {
         try {
             return ResponseEntity.ok(ReturnDto.of(Code.OK, userService.getUser()));
@@ -72,6 +72,16 @@ public class UserController {
         try {
             userService.changePassword(dto);
             return ResponseEntity.ok(ReturnDto.of(Code.OK));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
+    }
+
+    @GetMapping("/user/exist-email/{email}")
+    public ResponseEntity<ReturnDto> existsByEmail(@PathVariable String email) {
+        try {
+            return ResponseEntity.ok(ReturnDto.of(Code.OK, userService.existEmail(email)));
         } catch (Exception e) {
             e.printStackTrace();
         }

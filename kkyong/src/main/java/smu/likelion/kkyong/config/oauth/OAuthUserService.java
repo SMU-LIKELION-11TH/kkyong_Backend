@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import smu.likelion.kkyong.config.PrincipalDetails;
 import smu.likelion.kkyong.domain.entity.Users;
 import smu.likelion.kkyong.repository.UserRepository;
 
@@ -33,18 +34,18 @@ public class OAuthUserService implements OAuth2UserService<OAuth2UserRequest, OA
         OAuthAttributes oAuthAttributes = OAuthAttributes.ofKakao("id", originAttributes);
         Users user = saveOrUpdate(oAuthAttributes);
 
-        return OAuthUser.builder()
+        return PrincipalDetails.builder()
                 .registrationId(registrationId)
                 .attributes(originAttributes)
-                .email(user.getEmail())
+                .username(user.getEmail())
                 .role(user.getRole().getName())
                 .build();
     }
 
     private Users saveOrUpdate(OAuthAttributes authAttributes) {
-        Users user = userRepository.findByEmail(authAttributes.getEmail())
+        Users user = userRepository.findByEmail(authAttributes.getEmail() + "kakao")
                 .map(entity -> entity.updateOAuth(authAttributes.getNickname()))
-                .orElse(authAttributes.toEntity());
+                .orElse(authAttributes.toEntity(authAttributes.getEmail() + "kakao"));
 
         return userRepository.save(user);
     }

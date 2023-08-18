@@ -9,6 +9,7 @@ import smu.likelion.kkyong.domain.enums.Code;
 import smu.likelion.kkyong.dto.common.ReturnDto;
 import smu.likelion.kkyong.service.ReservationServiceImpl;
 import smu.likelion.kkyong.service.ServiceService;
+import smu.likelion.kkyong.service.UserService;
 
 @RestController
 @RequestMapping("/admin/api")
@@ -17,6 +18,7 @@ public class AdminController {
     private final PublicServiceAPI publicServiceAPI;
     private final ServiceService serviceService;
     private final ReservationServiceImpl reservationService;
+    private final UserService userService;
 
     @GetMapping("/services/{startPage}/{endPage}")
     public String createService(@PathVariable String startPage,
@@ -48,6 +50,28 @@ public class AdminController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<ReturnDto> getUserList() {
+        try {
+            return ResponseEntity.ok(ReturnDto.of(Code.OK, userService.getUserList()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @GetMapping("/services")
+    public ResponseEntity<ReturnDto> getServiceList() {
+        try {
+            return ResponseEntity.ok(ReturnDto.of(Code.OK, serviceService.getServiceList()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 

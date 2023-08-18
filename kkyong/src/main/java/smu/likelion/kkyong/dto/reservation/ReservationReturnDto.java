@@ -13,6 +13,7 @@ public class ReservationReturnDto {
     private String endTime;
     private String serviceName;
     private String serviceTarget;
+    private String serviceType;
     private String imageUrl;
     private String region;
     private String place;
@@ -26,6 +27,7 @@ public class ReservationReturnDto {
         this.endTime = reservation.getEndTime();
         this.serviceName = service.getServiceName();
         this.serviceTarget = service.getServiceTarget();
+        this.serviceType = service.getServiceType().getTypeName();
         this.imageUrl = service.getImageUrl();
         this.region = service.getRegion();
         this.place = service.getPlace();

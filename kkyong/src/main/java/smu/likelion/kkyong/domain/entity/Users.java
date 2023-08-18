@@ -21,10 +21,10 @@ public class Users extends BaseEntity {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @Column(name="email", unique = true)
+    @Column(name="email")
     private String email;
 
-    @Column(name="nickname", unique = true)
+    @Column(name="nickname")
     private String nickname;
 
     private String password;
@@ -42,7 +42,7 @@ public class Users extends BaseEntity {
     private List<Reservation> reservations = new ArrayList<>();
 
     @Builder
-    public Users(String email, String nickname, String password, String kakaoId, String phoneNumber, String region, Role role) {
+    public Users(String email, String nickname, String password, String phoneNumber, String region, Role role) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;

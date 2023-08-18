@@ -20,7 +20,6 @@ public class RegisterRequestDto {
                 .email(this.email)
                 .nickname(this.nickname)
                 .password(this.password)
-                .kakaoId(this.kakaoId)
                 .phoneNumber(this.phoneNumber)
                 .region(this.region)
                 .role(this.role)
