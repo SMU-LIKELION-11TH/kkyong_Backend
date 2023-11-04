@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(name = "reservations")
+@Table(name = "TB_RESERVATION")
 public class Reservation {
 
     @Id

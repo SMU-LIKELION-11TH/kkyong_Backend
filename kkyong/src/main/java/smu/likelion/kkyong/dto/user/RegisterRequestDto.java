@@ -10,7 +10,6 @@ public class RegisterRequestDto {
     private Role role;
     private String nickname;
     private String password;
-    private String kakaoId;
     private String phoneNumber;
     private String region;
 

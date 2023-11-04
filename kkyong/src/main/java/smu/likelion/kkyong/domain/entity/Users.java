@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(name = "users")
+@Table(name = "TB_USER")
 public class Users extends BaseEntity {
 
     @Id

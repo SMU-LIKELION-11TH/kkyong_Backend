@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import smu.likelion.kkyong.domain.enums.Code;
 import smu.likelion.kkyong.dto.user.*;
 import smu.likelion.kkyong.dto.common.ReturnDto;
+import smu.likelion.kkyong.service.UserService;
 import smu.likelion.kkyong.service.UserServiceImpl;
 
 @RestController
@@ -13,7 +14,7 @@ import smu.likelion.kkyong.service.UserServiceImpl;
 @RequestMapping("/api")
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<ReturnDto> register(@RequestBody RegisterRequestDto dto) {

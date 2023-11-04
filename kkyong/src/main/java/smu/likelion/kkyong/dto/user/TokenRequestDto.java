@@ -2,8 +2,10 @@ package smu.likelion.kkyong.dto.user;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class TokenRequestDto {
 
     private String accessToken;

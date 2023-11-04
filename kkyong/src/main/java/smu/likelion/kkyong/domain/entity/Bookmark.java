@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(name = "bookmarks")
+@Table(name = "TB_BOOKMARK")
 public class Bookmark extends BaseEntity {
 
     @Id

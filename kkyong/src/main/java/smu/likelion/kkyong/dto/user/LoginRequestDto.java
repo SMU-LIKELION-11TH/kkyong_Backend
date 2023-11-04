@@ -3,6 +3,7 @@ package smu.likelion.kkyong.dto.user;
 import lombok.*;
 
 @Data
+@NoArgsConstructor
 public class LoginRequestDto {
     private String email;
     private String password;

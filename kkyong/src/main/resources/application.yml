@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:~/kkyong
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://localhost:3306/kkyong?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1234
 
   h2:
     console:
@@ -14,10 +14,11 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: 'true'
+        show_sql: 'true'
     show-sql: 'true'
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   redis:
     host: 127.0.0.1
     port: 6379
