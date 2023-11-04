@@ -39,3 +39,5 @@ out/
 src/main/resources/application-api.properties
 src/main/resources/application-jwt.properties
 src/main/resources/application-oauth.properties
+
+.idea/
