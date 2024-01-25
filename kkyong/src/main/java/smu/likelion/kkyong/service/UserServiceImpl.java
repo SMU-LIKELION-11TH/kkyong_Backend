@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("로그아웃 : 유효하지 않은 토큰입니다.");
         }
 
-        // Access Token에서 User email을 가져온다
+        // Access Token에서 Authentication을 가져온다
         Authentication authentication = tokenProvider.getAuthentication(dto.getAccessToken());
 
         // Redis에서 해당 User email로 저장된 Refresh Token 이 있는지 여부를 확인 후에 있을 경우 삭제를 한다.
