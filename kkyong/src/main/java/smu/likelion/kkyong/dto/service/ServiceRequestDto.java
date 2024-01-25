@@ -13,8 +13,6 @@ public class ServiceRequestDto {
     private String region;
     private String place;
     private String serviceTarget;
-    private String xCoord;
-    private String yCoord;
     private String serviceStart;
     private String serviceEnd;
     private String imageUrl;
@@ -23,15 +21,13 @@ public class ServiceRequestDto {
 
     @Builder
     public ServiceRequestDto(String serviceType, String serviceName, String region, String place,
-                             String serviceTarget, String xCoord, String yCoord, String serviceStart, String serviceEnd,
+                             String serviceTarget, String serviceStart, String serviceEnd,
                              String imageUrl, String contact, boolean reservationStatus) {
         this.serviceType = serviceType;
         this.serviceName = serviceName;
         this.region = region;
         this.place = place;
         this.serviceTarget = serviceTarget;
-        this.xCoord = xCoord;
-        this.yCoord = yCoord;
         this.serviceStart = serviceStart;
         this.serviceEnd = serviceEnd;
         this.imageUrl = imageUrl;
@@ -46,8 +42,6 @@ public class ServiceRequestDto {
                 .region(this.region)
                 .place(this.place)
                 .serviceTarget(this.serviceTarget)
-                .xCoord(this.xCoord)
-                .yCoord(this.yCoord)
                 .serviceStart(convertDate(this.serviceStart))
                 .serviceEnd(convertDate(this.serviceEnd))
                 .imageUrl(this.imageUrl)

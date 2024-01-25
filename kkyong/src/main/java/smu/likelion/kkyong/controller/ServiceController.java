@@ -25,7 +25,7 @@ public class ServiceController {
             e.printStackTrace();
         }
 
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @GetMapping("/type/{serviceType}")
@@ -37,7 +37,7 @@ public class ServiceController {
             e.printStackTrace();
         }
 
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @GetMapping("/search")
@@ -48,7 +48,7 @@ public class ServiceController {
             e.printStackTrace();
         }
 
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @GetMapping("/bookmark")
@@ -59,7 +59,7 @@ public class ServiceController {
             e.printStackTrace();
         }
 
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @PostMapping("/{serviceId}/bookmark")
@@ -71,7 +71,7 @@ public class ServiceController {
             e.printStackTrace();
         }
 
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @DeleteMapping("/{serviceId}/bookmark")
@@ -83,6 +83,6 @@ public class ServiceController {
             e.printStackTrace();
         }
 
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import smu.likelion.kkyong.domain.enums.Code;
 import smu.likelion.kkyong.dto.user.*;
 import smu.likelion.kkyong.dto.common.ReturnDto;
+import smu.likelion.kkyong.service.UserService;
 import smu.likelion.kkyong.service.UserServiceImpl;
 
 @RestController
@@ -13,7 +14,7 @@ import smu.likelion.kkyong.service.UserServiceImpl;
 @RequestMapping("/api")
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<ReturnDto> register(@RequestBody RegisterRequestDto dto) {
@@ -22,7 +23,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @PostMapping("/login")
@@ -32,7 +33,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @PostMapping("/logout")
@@ -44,17 +45,17 @@ public class UserController {
             e.printStackTrace();
         }
 
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
-    @GetMapping( "/user")
+    @GetMapping("/user")
     public ResponseEntity<ReturnDto> getUser() {
         try {
             return ResponseEntity.ok(ReturnDto.of(Code.OK, userService.getUser()));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @PutMapping("/user")
@@ -64,7 +65,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 
     @PutMapping("/user/password")
@@ -75,6 +76,16 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
+    }
+
+    @GetMapping("/user/exist-email/{email}")
+    public ResponseEntity<ReturnDto> existsByEmail(@PathVariable String email) {
+        try {
+            return ResponseEntity.ok(ReturnDto.of(Code.OK, userService.existEmail(email)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ReturnDto.of(Code.BAD_REQUEST));
     }
 }

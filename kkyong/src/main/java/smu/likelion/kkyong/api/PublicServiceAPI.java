@@ -39,7 +39,6 @@ public class PublicServiceAPI {
 
         ResponseDto result = template.getForEntity(uri, ResponseDto.class).getBody();
         String resultString = template.getForObject(uri, String.class);
-        System.out.println("result = " + result);
 
         // Row -> ServiceRequestDto -> Services
         List<ServiceRequestDto> dtos = Arrays.stream(result.tvYeyakCOllect.rows).map(row ->
@@ -49,8 +48,6 @@ public class PublicServiceAPI {
                         .region(row.AREANM)
                         .place(row.PLACENM)
                         .serviceTarget(row.USETGTINFO)
-                        .xCoord(row.X)
-                        .yCoord(row.Y)
                         .serviceStart(row.RCPTENDDT)
                         .serviceEnd(row.SVCOPNENDDT)
                         .imageUrl(row.IMGURL)
@@ -102,12 +99,6 @@ public class PublicServiceAPI {
 
             @JsonProperty("USETGTINFO")
             private String USETGTINFO;
-
-            @JsonProperty("X")
-            private String X;
-
-            @JsonProperty("Y")
-            private String Y;
 
             @JsonProperty("RCPTENDDT")
             private String RCPTENDDT;

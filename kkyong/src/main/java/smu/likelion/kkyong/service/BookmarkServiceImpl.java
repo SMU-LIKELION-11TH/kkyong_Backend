@@ -1,6 +1,7 @@
 package smu.likelion.kkyong.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smu.likelion.kkyong.config.auth.AuthUtil;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookmarkServiceImpl implements BookmarkService {
 
     private final ServiceRepository serviceRepository;
@@ -49,6 +51,8 @@ public class BookmarkServiceImpl implements BookmarkService {
         Users user = findUser(AuthUtil.getAuthUser());
         List<Bookmark> bookmarks = bookmarkRepository.findByUser(user);
 
+        log.info(user.getEmail() + " : get bookmark list");
+
         return bookmarks.stream().map(bookmark -> ServiceReturnDto.builder()
                 .entity(bookmark.getService())
                 .bookmarkStatus(true)
@@ -65,7 +69,9 @@ public class BookmarkServiceImpl implements BookmarkService {
             throw ExceptionUtil.available("You have been bookmark this service");
         }
 
-       bookmarkRepository.save(Bookmark.builder()
+        log.info(user.getEmail() + " : create bookmark " + serviceId);
+
+        bookmarkRepository.save(Bookmark.builder()
                 .service(service)
                 .user(user)
                 .build());
@@ -77,9 +83,13 @@ public class BookmarkServiceImpl implements BookmarkService {
         Services service = findService(serviceId);
         Users user = findUser(AuthUtil.getAuthUser());
         Bookmark bookmark = findBookmark(service, user);
+
         if (bookmark == null) {
             throw ExceptionUtil.available("This Service have not bookmarked");
         }
+
+        log.info(user.getEmail() + " : delete bookmark " + serviceId);
+
         bookmarkRepository.delete(bookmark);
     }
 }
