@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import smu.likelion.kkyong.config.PrincipalDetails;
 
 public class AuthUtil {
     public static String getAuthUser() {
@@ -15,8 +16,8 @@ public class AuthUtil {
 
         Object details = authentication.getPrincipal();
 
-        if (details instanceof UserDetails) {
-            return ((UserDetails) details).getUsername();
+        if (details instanceof PrincipalDetails) {
+            return ((PrincipalDetails) details).getUsername();
         }
         return details != null ? details.toString() : null;
     }

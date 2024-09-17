@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
+import smu.likelion.kkyong.config.PrincipalDetails;
 import smu.likelion.kkyong.domain.entity.Users;
 import smu.likelion.kkyong.repository.UserRepository;
 import smu.likelion.kkyong.util.ExceptionUtil;
@@ -22,7 +23,7 @@ public class AuthUserDetailsService implements UserDetailsService {
                 () -> ExceptionUtil.id(username, Users.class.getName())
         );
 
-        return AuthUser.builder()
+        return PrincipalDetails.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
                 .role(user.getRole().getName())

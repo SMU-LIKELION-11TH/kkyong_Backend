@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(name = "services")
+@Table(name = "TB_SERVICE")
 public class Services extends BaseEntity {
 
     @Id

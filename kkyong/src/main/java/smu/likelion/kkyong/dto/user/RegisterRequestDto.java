@@ -10,7 +10,6 @@ public class RegisterRequestDto {
     private Role role;
     private String nickname;
     private String password;
-    private String kakaoId;
     private String phoneNumber;
     private String region;
 
@@ -20,7 +19,6 @@ public class RegisterRequestDto {
                 .email(this.email)
                 .nickname(this.nickname)
                 .password(this.password)
-                .kakaoId(this.kakaoId)
                 .phoneNumber(this.phoneNumber)
                 .region(this.region)
                 .role(this.role)

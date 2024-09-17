@@ -11,4 +11,5 @@ public interface ServiceService {
     public List<ServiceReturnDto> getServiceListByName(String serviceName);
     public ServiceReturnDto getService(Long serviceId);
     public void deleteService(Long serviceId);
+    public List<ServiceReturnDto> getServiceList();
 }

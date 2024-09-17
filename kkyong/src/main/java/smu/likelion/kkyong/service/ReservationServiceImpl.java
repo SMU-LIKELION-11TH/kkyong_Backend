@@ -1,6 +1,7 @@
 package smu.likelion.kkyong.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smu.likelion.kkyong.config.auth.AuthUtil;
@@ -21,12 +22,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReservationServiceImpl implements ReservationService {
 
     private final UserRepository userRepository;
     private final ServiceRepository serviceRepository;
     private final ReservationRepository reservationRepository;
-    private final ReservationBuilder reservationBuilder;
 
     private Users findUser(String email) {
         return userRepository.findByEmail(email).orElseThrow(
@@ -52,8 +53,6 @@ public class ReservationServiceImpl implements ReservationService {
         Services service = findService(serviceId);
         Users user = findUser(AuthUtil.getAuthUser());
 
-        // 예약 다 찼는지 확인
-
         Reservation reservation = Reservation.builder()
                 .reservationDate(dto.getDate())
                 .reservationNumber(ReservationBuilder.createReservationNumber(String.valueOf(serviceId)))
@@ -62,6 +61,8 @@ public class ReservationServiceImpl implements ReservationService {
                 .service(service)
                 .user(user)
                 .build();
+
+        log.info(user.getEmail() + " : create reservation " + serviceId);
 
         return ReservationReturnDto.builder()
                 .reservation(reservationRepository.save(reservation))
@@ -77,6 +78,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<Reservation> reservations = reservationRepository.findByUserOrderByReservationDateDesc(user);
 
+        log.info(user.getEmail() + " : get reservation list");
+
         return reservations.stream().map(reservation -> ReservationReturnDto.builder()
                 .reservation(reservation)
                 .service(reservation.getService())
@@ -86,7 +89,10 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     @Override
     public ReservationReturnDto getReservation(String reservationNumber) {
+        Users user = findUser(AuthUtil.getAuthUser());
         Reservation reservation = findReservation(reservationNumber);
+
+        log.info(user.getEmail() + " : get reservation " + reservationNumber);
 
         return ReservationReturnDto.builder()
                 .reservation(reservation)
@@ -97,9 +103,12 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     @Override
     public List<TimeDto> getReservationTime(Long serviceId, String reservationDate) {
+        Users user = findUser(AuthUtil.getAuthUser());
         Services service = findService(serviceId);
 
         List<Reservation> reservations = reservationRepository.findByServiceAndReservationDate(service, reservationDate);
+
+        log.info(user.getEmail() + " : get reservation time " + serviceId);
 
         return reservations.stream().map(reservation -> TimeDto.builder()
                 .startTime(reservation.getStartTime())
@@ -116,6 +125,8 @@ public class ReservationServiceImpl implements ReservationService {
         if(!user.equals(reservation.getUser())) {
             throw ExceptionUtil.available("No Authorized");
         }
+
+        log.info(user.getEmail() + " : delete reservation " + reservationNumber);
 
         reservationRepository.delete(reservation);
     }
